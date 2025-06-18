@@ -62,4 +62,32 @@ public class BinaryTree {
             printInOrderRec(node.getDerecho());
         }
     }
+    
+    public boolean findeValue(int value) {
+        return searchInOrderRec(root, value) 
+            || searchPreOrderRec(root, value) 
+            || searchPostOrderRec(root, value);
+    }
+
+    private boolean searchInOrderRec(Node node, int value) {
+        if (node == null) return false;
+        return searchInOrderRec(node.getIzquierdo(), value)
+            || node.getValue() == value
+            || searchInOrderRec(node.getDerecho(), value);
+    }
+
+    private boolean searchPreOrderRec(Node node, int value) {
+        if (node == null) return false;
+        return node.getValue() == value
+            || searchPreOrderRec(node.getIzquierdo(), value)
+            || searchPreOrderRec(node.getDerecho(), value);
+    }
+
+    private boolean searchPostOrderRec(Node node, int value) {
+        if (node == null) return false;
+        return searchPostOrderRec(node.getIzquierdo(), value)
+            || searchPostOrderRec(node.getDerecho(), value)
+            || node.getValue() == value;
+    }
+
 }
