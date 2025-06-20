@@ -5,9 +5,11 @@ import materia.models.Node;
 public class BinaryTree {
 
     private Node root;
+    private int size;
 
     public BinaryTree(){
         this.root = null;
+        this.size = 0;
     }
     
     public void insert(int value){
@@ -16,6 +18,7 @@ public class BinaryTree {
 
     private Node insertRec(Node padre, int value){
         if (padre == null){
+            size++;
             padre = new Node(value);
             return padre;
         }
@@ -62,32 +65,96 @@ public class BinaryTree {
             printInOrderRec(node.getDerecho());
         }
     }
+    public boolean findeValue(int value){
+        return searchRec(root, value);
+    }
+
+    private boolean searchRec(Node node, int value){
+        if (node == null) {
+            return false;
+        }
+        if (node.getValue() == value) {
+            return true;
+        }
+        if (value < node.getValue()) {
+            return searchRec(node.getIzquierdo(), value);
+        } else {
+            return searchRec(node.getDerecho(), value);
+        }
+    }
+
+    public int getHeightTree(){
+        return getHeightRec(root);
+    }
+
+    public int getHeightRec(Node node){
+        if (node == null) {
+            return 0;
+        }
+
+        int leftHeight = getHeightRec(node.getIzquierdo());
+        int rightHeight = getHeightRec(node.getDerecho());
+        return Math.max(leftHeight, rightHeight)+1;
+    }
+    public void printInOrderWith(){
+        printInOrderRecWith(root);
+    }
+
+    private void printInOrderRecWith(Node node){
+        if (node != null){
+            printInOrderRecWith(node.getIzquierdo());
+            int height = getHeightRec(node);
+            System.out.print(node.getValue() + "(h=" + height +"), ");
+            printInOrderRecWith(node.getDerecho());
+        }
+    }
+
+    public int getSize(){
+        return size;
+    }
+
+    public void printInOrderBalanceFactor() {
+        printInOrderBalanceFactorRec(root);
+        System.out.println();
+    }
+
+    private void printInOrderBalanceFactorRec(Node node) {
+        if (node != null) {
+            printInOrderBalanceFactorRec(node.getIzquierdo());
+            int bf = getHeightRec(node.getIzquierdo()) - getHeightRec(node.getDerecho());
+            System.out.print(node.getValue() + "(bf=" + bf + "), ");
+            printInOrderBalanceFactorRec(node.getDerecho());
+        }
+    }
+
+    public boolean isBalanced() {
+        return checkBalanced(root);
+    }
+
+    private boolean checkBalanced(Node node) {
+        if (node == null) return true;
+        int lh = getHeightRec(node.getIzquierdo());
+        int rh = getHeightRec(node.getDerecho());
+        int balance = lh - rh;
+        return Math.abs(balance) <= 1 && checkBalanced(node.getIzquierdo()) && checkBalanced(node.getDerecho());
+    }
+
+    public void printUnbalancedNodes() {
+        System.out.print("Nodos desequilibrados ");
+        printUnbalancedRec(root);
+        System.out.println();
+    }
+
+    private void printUnbalancedRec(Node node) {
+        if (node != null) {
+            printUnbalancedRec(node.getIzquierdo());
+            int bf = getHeightRec(node.getIzquierdo()) - getHeightRec(node.getDerecho());
+            if (Math.abs(bf) > 1) {
+                System.out.print(node.getValue() + "(fE = " + bf + ") y ");
+            }
+            printUnbalancedRec(node.getDerecho());
+        }
+    }
+
     
-    public boolean findeValue(int value) {
-        return searchInOrderRec(root, value) 
-            || searchPreOrderRec(root, value) 
-            || searchPostOrderRec(root, value);
-    }
-
-    private boolean searchInOrderRec(Node node, int value) {
-        if (node == null) return false;
-        return searchInOrderRec(node.getIzquierdo(), value)
-            || node.getValue() == value
-            || searchInOrderRec(node.getDerecho(), value);
-    }
-
-    private boolean searchPreOrderRec(Node node, int value) {
-        if (node == null) return false;
-        return node.getValue() == value
-            || searchPreOrderRec(node.getIzquierdo(), value)
-            || searchPreOrderRec(node.getDerecho(), value);
-    }
-
-    private boolean searchPostOrderRec(Node node, int value) {
-        if (node == null) return false;
-        return searchPostOrderRec(node.getIzquierdo(), value)
-            || searchPostOrderRec(node.getDerecho(), value)
-            || node.getValue() == value;
-    }
-
 }
