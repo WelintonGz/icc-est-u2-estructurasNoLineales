@@ -1,8 +1,15 @@
-import materia.controllers.BinaryTree;
+//import materia.controllers.BinaryTree;
+import materia.controllers.AVLTree;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        BinaryTree ab = new BinaryTree();
+        System.out.println("\nNombre: Wellington Guzmán");
+        AVLTree ab = new AVLTree();
+        ab.insert(5);
+        ab.insert(20);
+        ab.insert(15);
+
+        /*BinaryTree ab = new BinaryTree();
         ab.insert(50);
         ab.insert(17);
         ab.insert(76);
@@ -62,6 +69,6 @@ public class App {
         System.out.println("\nArbol InOrder con factor de equilibrio");
         ab.printInOrderBalanceFactor();
 
-        ab.printUnbalancedNodes();
+        ab.printUnbalancedNodes();*/
     }
 }

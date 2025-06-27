@@ -11,3 +11,4 @@ Codigo que muestra si el arbol esta o no equilibrado, su peso y demas.
 
 🧑‍💻 Ejemplo de Salida
 ![Resultado del árbol](![alt text](image.png))
+![Resultado del árbol](![alt text](image2.png))
